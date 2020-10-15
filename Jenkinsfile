@@ -25,14 +25,15 @@ pipeline {
             }
             stage('create WAR-file') {
                 steps {
-                    sh 'mvn clean package -DskipTests'
-                    sh 'ls -al target'
+                    sh '''mvn clean package -DskipTests
+                        ls -al target'''
                 }
             }
             stage('deploy to nexus') {
                 steps {
                     withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASSWORD')]) {
                     configFileProvider([configFile(fileId: 'default', variable: 'MAVEN_GLOBAL_SETTINGS')]) {
+                        sh " sed -i 's|password: admin|password: '${NEXUS_PASSWORD}'|g' prometheus/prometheus.yml"
                         sh 'mvn -gs $MAVEN_GLOBAL_SETTINGS deploy -DskipTests'
                         }
                     }
@@ -52,7 +53,7 @@ pipeline {
             }
             stage('stop docker-compose') {
                 steps {
-                    sleep(300)
+                    sleep(150)
                     sh 'docker-compose down'
                 }
             }
