@@ -25,7 +25,7 @@ pipeline {
         stage('Package') {
             steps {
                 script {
-                    mvn.package()
+                    mvn.artifactpackage()
                 }
             }
         }
