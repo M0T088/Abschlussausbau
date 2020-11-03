@@ -3,47 +3,37 @@ pipeline {
     stages {
 		stage('Compile') {
 			steps {
-                script {
-                    mvn.compile()
-                }
+                sh 'mvn compile'
             }
         }
         stage('Test') {
             steps {
-                script {
-                    mvn.test()
-                }
+                sh 'mvn test'
             }
         }
         stage('Sonar Verify') {
             steps {
-                script {
-                    mvn.verify()
+                configFileProvider([configFile(fileId: '288a6038-67c3-45be-aecd-42bf286ed2a3', variable: 'MAVEN_GLOBAL_SETTINGS')]){
+                sh 'mvn -gs ${MAVEN_GLOBAL_SETTINGS} verify sonar:sonar -DskipTests'
                 }
             }
         }
         stage('Package') {
             steps {
-                script {
-                    mvn.artifactpackage()
-                }
+                sh 'mvn package -DskipTests'
             }
         }
-        stage('Deploy Nexus') {
+        stage('Nexus Deploy') {
             steps {
-                configFileProvider([configFile(fileId: 'default', variable: 'MAVEN_GLOBAL_SETTINGS')]){
-                script {
-                    mvn.deploy()
-                    }
+                configFileProvider([configFile(fileId: '288a6038-67c3-45be-aecd-42bf286ed2a3', variable: 'MAVEN_GLOBAL_SETTINGS')]){
+                sh 'mvn clean deploy -gs ${MAVEN_GLOBAL_SETTINGS} -DskipTests'
                 }
             }
         }
-        stage('Deploy Tomcat') {
-			steps {
-                configFileProvider([configFile(fileId: 'default', variable: 'MAVEN_GLOBAL_SETTINGS')]){
-                script {
-                    mvn.tomcat()
-                    }
+        stage('Tomcat Deploy') {
+            steps {
+                configFileProvider([configFile(fileId: '288a6038-67c3-45be-aecd-42bf286ed2a3', variable: 'MAVEN_GLOBAL_SETTINGS')]){
+                sh 'mvn tomcat7:redeploy -gs ${MAVEN_GLOBAL_SETTINGS} -DskipTests'
                 }
             }
         }
