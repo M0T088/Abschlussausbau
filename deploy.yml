@@ -1,6 +1,9 @@
 ---
 - name: Deploy WAR File to tomcat
   hosts: cont
+  become: true
+  become_user: root
+  gather_facts: false
   tasks:
     - name: Copy Webblog from Nexus to Tomcat
       local_action:
