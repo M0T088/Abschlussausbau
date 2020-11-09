@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Sonar Verify') {
             steps {
-                configFileProvider([configFile(fileId: '288a6038-67c3-45be-aecd-42bf286ed2a3', variable: 'MAVEN_GLOBAL_SETTINGS')]){
+                configFileProvider([configFile(fileId: '3626fad1-bf93-4fb9-b209-780540db7c86', variable: 'MAVEN_GLOBAL_SETTINGS')]){
                 sh 'mvn -gs ${MAVEN_GLOBAL_SETTINGS} verify sonar:sonar -DskipTests'
                 }
             }
@@ -25,14 +25,14 @@ pipeline {
         }
         stage('Nexus Deploy') {
             steps {
-                configFileProvider([configFile(fileId: '288a6038-67c3-45be-aecd-42bf286ed2a3', variable: 'MAVEN_GLOBAL_SETTINGS')]){
+                configFileProvider([configFile(fileId: '3626fad1-bf93-4fb9-b209-780540db7c86', variable: 'MAVEN_GLOBAL_SETTINGS')]){
                 sh 'mvn clean deploy -gs ${MAVEN_GLOBAL_SETTINGS} -DskipTests'
                 }
             }
         }
         stage('Tomcat Deploy') {
             steps {
-                configFileProvider([configFile(fileId: '288a6038-67c3-45be-aecd-42bf286ed2a3', variable: 'MAVEN_GLOBAL_SETTINGS')]){
+                configFileProvider([configFile(fileId: '3626fad1-bf93-4fb9-b209-780540db7c86', variable: 'MAVEN_GLOBAL_SETTINGS')]){
                 sh 'mvn tomcat7:redeploy -gs ${MAVEN_GLOBAL_SETTINGS} -DskipTests'
                 }
             }
