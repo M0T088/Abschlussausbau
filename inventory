@@ -1,4 +1,2 @@
-[tomcat]
-tomcat
-[tomcat:vars]
-ansible_connection=docker
+[cont]
+18.191.201.84 ansible_port=8080

@@ -31,9 +31,8 @@ pipeline {
             }
         }
         stage('Tomcat Deploy') {
-            steps {
-                configFileProvider([configFile(fileId: '3626fad1-bf93-4fb9-b209-780540db7c86', variable: 'MAVEN_GLOBAL_SETTINGS')]){
-                sh 'mvn tomcat7:redeploy -gs ${MAVEN_GLOBAL_SETTINGS} -DskipTests'
+                steps {
+                    ansiblePlaybook colorized: true, disableHostKeyChecking: true, installation: 'ansible', inventory: 'inventory', playbook: 'deploy.yml'
                 }
             }
         }
