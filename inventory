@@ -1,2 +1,2 @@
 [cont]
-ansible_host=18.191.201.84 ansible_port=8080 ansible_user=m.torbon ansible_ssh_private_key_file=/home/m.torbon/.ssh/id_rsa.pub
+18.191.201.84 ansible_port=8080 ansible_user=m.torbon ansible_ssh_private_key_file=/home/m.torbon/.ssh/id_rsa.pub
