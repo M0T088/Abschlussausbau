@@ -1,2 +1,2 @@
 [cont]
-18.191.201.84 ansible_user=m.torbon ansible_ssh_private_key_file=/home/m.torbon/.ssh/id_rsa.pub
+18.191.201.84 ansible_user=m.torbon ansible_ssh_private_key_file=~/.ssh/id_rsa

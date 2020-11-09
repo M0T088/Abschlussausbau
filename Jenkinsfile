@@ -6,21 +6,11 @@ pipeline {
                 sh 'mvn compile'
             }
         }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-        }
-        stage('Sonar Verify') {
+        stage('Sonar Test Verify') {
             steps {
                 configFileProvider([configFile(fileId: '3626fad1-bf93-4fb9-b209-780540db7c86', variable: 'MAVEN_GLOBAL_SETTINGS')]){
-                sh 'mvn -gs ${MAVEN_GLOBAL_SETTINGS} verify sonar:sonar -DskipTests'
+                sh 'mvn -gs ${MAVEN_GLOBAL_SETTINGS} verify sonar:sonar'
                 }
-            }
-        }
-        stage('Package') {
-            steps {
-                sh 'mvn package -DskipTests'
             }
         }
         stage('Nexus Deploy') {
